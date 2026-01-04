@@ -6,18 +6,35 @@ from .serializers import RegisterSerializer, MeSerializer, MeUpdateSerializer
 
 User = get_user_model()
 
+
 class RegisterView(generics.CreateAPIView):
+    """
+    POST /api/register/
+    Cria um usuário novo usando RegisterSerializer.
+    """
     permission_classes = [permissions.AllowAny]
     serializer_class = RegisterSerializer
 
+
 class MeView(generics.GenericAPIView):
+    """
+    GET /api/me/      -> retorna dados do usuário logado
+    PATCH /api/me/    -> atualiza parcialmente (nome/foto/senha etc, conforme serializer)
+    """
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
-        return Response(MeSerializer(request.user, context={"request": request}).data)
+        serializer = MeSerializer(request.user, context={"request": request})
+        return Response(serializer.data)
 
     def patch(self, request):
-        serializer = MeUpdateSerializer(data=request.data, context={"request": request})
+        # ✅ forma correta: passa a instância + partial=True
+        serializer = MeUpdateSerializer(
+            instance=request.user,
+            data=request.data,
+            partial=True,
+            context={"request": request},
+        )
         serializer.is_valid(raise_exception=True)
-        serializer.update(request.user, serializer.validated_data)
-        return Response(MeSerializer(request.user, context={"request": request}).data)
+        user = serializer.save()
+        return Response(MeSerializer(user, context={"request": request}).data)

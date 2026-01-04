@@ -34,6 +34,10 @@ export default function Login() {
             style={{ width: "100%", marginBottom: 10 }}
             />
 
+            <p style={{ marginTop: 16 }}>
+            Não tem conta? <Link to="/register">Criar conta</Link>
+            </p>
+
             <button style={{ width: "100%" }}>Entrar</button>
         </form>
         </div>

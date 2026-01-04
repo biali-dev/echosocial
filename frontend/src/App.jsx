@@ -5,6 +5,7 @@ import Feed from "./pages/Feed";
 import Users from "./pages/Users";
 import Profile from "./pages/Profile";
 import UserProfile from "./pages/UserProfile";
+import Register from "./pages/Register";
 
 export default function App() {
   const { user } = useAuth();
@@ -22,6 +23,7 @@ export default function App() {
             <Route path="/users" element={<Users />} />
             <Route path="/users/:id" element={<UserProfile />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/register" element={<Register />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         )}
