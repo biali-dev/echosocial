@@ -43,6 +43,9 @@ INSTALLED_APPS = [
 
     # Apps
     "apps.accounts.apps.AccountsConfig",
+    "apps.posts.apps.PostsConfig",
+    "apps.social.apps.SocialConfig",
+    "apps.interactions.apps.InteractionsConfig",
 ]
 
 MIDDLEWARE = [

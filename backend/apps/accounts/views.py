@@ -14,10 +14,10 @@ class MeView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
-        return Response(MeSerializer(request.user).data)
+        return Response(MeSerializer(request.user, context={"request": request}).data)
 
     def patch(self, request):
         serializer = MeUpdateSerializer(data=request.data, context={"request": request})
         serializer.is_valid(raise_exception=True)
         serializer.update(request.user, serializer.validated_data)
-        return Response(MeSerializer(request.user).data)
+        return Response(MeSerializer(request.user, context={"request": request}).data)
