@@ -4,9 +4,12 @@ import api from "../api/axios";
 
 export default function Register() {
     const navigate = useNavigate();
+
     const [username, setUsername] = useState("");
+    const [email, setEmail] = useState(""); // opcional
     const [password, setPassword] = useState("");
     const [password2, setPassword2] = useState("");
+
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
@@ -25,8 +28,14 @@ export default function Register() {
 
         try {
         setLoading(true);
-        await api.post("register/", { username, password, password2 });
-        // Cadastro ok -> manda pro login
+
+        // ✅ endpoint correto e payload compatível com seu RegisterSerializer
+        await api.post("auth/register/", {
+            username: username.trim(),
+            email: email.trim() || "",
+            password,
+        });
+
         navigate("/login");
         } catch (err) {
         const msg =
@@ -50,6 +59,14 @@ export default function Register() {
             onChange={(e) => setUsername(e.target.value)}
             style={{ width: "100%", padding: 12, marginBottom: 12 }}
             />
+
+            <input
+            placeholder="Email (opcional)"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            style={{ width: "100%", padding: 12, marginBottom: 12 }}
+            />
+
             <input
             type="password"
             placeholder="Senha"
@@ -57,6 +74,7 @@ export default function Register() {
             onChange={(e) => setPassword(e.target.value)}
             style={{ width: "100%", padding: 12, marginBottom: 12 }}
             />
+
             <input
             type="password"
             placeholder="Confirmar senha"
@@ -65,14 +83,9 @@ export default function Register() {
             style={{ width: "100%", padding: 12, marginBottom: 12 }}
             />
 
-            {error && (
-            <p style={{ color: "tomato", marginBottom: 12 }}>{error}</p>
-            )}
+            {error && <p style={{ color: "tomato", marginBottom: 12 }}>{error}</p>}
 
-            <button
-            disabled={loading}
-            style={{ width: "100%", padding: 12 }}
-            >
+            <button disabled={loading} style={{ width: "100%", padding: 12 }}>
             {loading ? "Criando..." : "Criar conta"}
             </button>
         </form>

@@ -14,7 +14,6 @@ export function AuthProvider({ children }) {
     }
 
     async function login(username, password) {
-        // SimpleJWT espera {username, password}
         const res = await api.post("auth/token/", { username, password });
 
         localStorage.setItem("access", res.data.access);
@@ -35,7 +34,6 @@ export function AuthProvider({ children }) {
             const access = localStorage.getItem("access");
             if (access) await getMe();
         } catch (err) {
-            // token inválido/expirado
             logout();
         } finally {
             setLoadingAuth(false);
@@ -55,7 +53,6 @@ export function AuthProvider({ children }) {
     export function useAuth() {
     const ctx = useContext(AuthContext);
 
-    // ✅ em vez de quebrar a app, retorna um fallback seguro
     if (!ctx) {
         return {
         user: null,
