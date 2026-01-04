@@ -13,7 +13,10 @@ export default function Login() {
 
     return (
         <div style={{ maxWidth: 400, margin: "100px auto" }}>
-        <h1>Login</h1>
+        <h1>Echo Social</h1>
+        <br />
+        <h2>Login</h2>
+        <br />
 
         <form onSubmit={handleSubmit}>
             <input
