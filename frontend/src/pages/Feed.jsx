@@ -141,6 +141,8 @@ export default function Feed() {
             alignItems: "center",
             }}
         >
+            <h1>Echo Social</h1>
+            <br />
             <h1>Feed</h1>
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <Link to="/users">Explorar</Link>
