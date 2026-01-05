@@ -6,10 +6,19 @@ export default function Login() {
     const { login } = useAuth();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
 
     async function handleSubmit(e) {
         e.preventDefault();
+        setError("");
+        try {
         await login(username, password);
+        } catch (err) {
+        const msg =
+            err?.response?.data?.detail ||
+            "Usuário ou senha inválidos.";
+        setError(msg);
+        }
     }
 
     return (
@@ -34,6 +43,8 @@ export default function Login() {
             onChange={(e) => setPassword(e.target.value)}
             style={{ width: "100%", marginBottom: 10 }}
             />
+
+            {error && <p style={{ color: "tomato" }}>{error}</p>}
 
             <p style={{ marginTop: 16 }}>
             Não tem conta? <Link to="/register">Criar conta</Link>

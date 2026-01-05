@@ -38,10 +38,17 @@ export default function Register() {
 
         navigate("/login");
         } catch (err) {
-        const msg =
-            err?.response?.data?.detail ||
-            "Erro ao cadastrar. Tente outro usuário.";
-        setError(msg);
+            console.log("REGISTER ERROR:", err?.response?.data);
+            const data = err?.response?.data;
+            const msg =
+                data?.detail ||
+                (data && typeof data === "object"
+                ? Object.entries(data)
+                    .map(([k, v]) => `${k}: ${Array.isArray(v) ? v.join(", ") : v}`)
+                    .join(" | ")
+                : null) ||
+                "Erro ao cadastrar. Tente outro usuário.";
+            setError(msg);
         } finally {
         setLoading(false);
         }
